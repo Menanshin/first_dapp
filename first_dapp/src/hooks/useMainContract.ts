@@ -2,8 +2,7 @@ import { useEffect, useState } from "react";
 import { MainContract } from "../contracts/MainContract";
 import { useTonClient } from "./useTonClient";
 import { useAsyncInitialize } from "./useAsyncInitialize";
-import { Address, OpenedContract } from "ton-core";
-import { toNano } from "ton-core";
+import { Address, OpenedContract, toNano } from "ton-core";
 import { useTonConnect } from "./useTonConnect";
 
 export function useMainContract() {
@@ -16,12 +15,14 @@ export function useMainContract() {
     owner_address: Address;
   }>();
 
+  const [balance, setBalance] = useState<null | number>(0);
 
   const mainContract = useAsyncInitialize(async () => {
     if (!client) return;
-    const contract = new MainContract(
-      Address.parse("EQCS7PUYXVFI-4uvP1_vZsMVqLDmzwuimhEPtsyQKIcdeNPu") 
-    );
+    const parsedAddress = Address.parse("EQCS7PUYXVFI-4uvP1_vZsMVqLDmzwuimhEPtsyQKIcdeNPu");
+    console.log("🚀 ~ file: useMainContract.ts:22 ~ mainContract ~ parsedAddress:", parsedAddress.toString());
+
+    const contract = new MainContract(parsedAddress);
     return client.open(contract) as OpenedContract<MainContract>;
   }, [client]);
 
