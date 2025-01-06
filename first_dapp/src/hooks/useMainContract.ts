@@ -26,7 +26,11 @@ export function useMainContract() {
     return client.open(contract) as OpenedContract<MainContract>;
   }, [client]);
 
+  const sleep = (time: number) => new Promise((resolve) => setTimeout(resolve, time)); // Функция для задержки
+
   useEffect(() => {
+    let interval: NodeJS.Timeout;
+
     async function getValue() {
       if (!mainContract) return;
 
@@ -46,7 +50,15 @@ export function useMainContract() {
       }
     }
 
-    getValue(); // Получение данных при изменении mainContract
+    getValue(); // Изначальный вызов для получения данных
+
+    interval = setInterval(() => {
+      getValue(); // Повторный вызов каждые 5 секунд
+    }, 5000);
+
+    return () => {
+      clearInterval(interval); // Очистка интервала при размонтировании
+    };
   }, [mainContract]);
 
   return {
