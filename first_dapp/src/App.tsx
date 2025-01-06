@@ -10,10 +10,18 @@ function App() {
     recent_sender,
     owner_address,
     contract_balance,
-    sendIncrement, 
+    sendIncrement,
   } = useMainContract();
   
   const { connected } = useTonConnect();  
+
+  const handleIncrement = () => {
+    if (sendIncrement) {
+      sendIncrement();
+    } else {
+      console.warn("sendIncrement function is not available");
+    }
+  };
 
   return (
     <div>
@@ -36,9 +44,7 @@ function App() {
         {/* Кнопка для инкремента */}
         {connected && (
           <a
-            onClick={() => {
-              sendIncrement(); 
-            }}
+            onClick={handleIncrement} // Использование обработчика
             style={{ cursor: "pointer", color: "blue", textDecoration: "underline" }}
           >
             Increment
