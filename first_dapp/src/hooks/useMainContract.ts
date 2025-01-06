@@ -10,13 +10,12 @@ export function useMainContract() {
   const client = useTonClient();
   const { sender } = useTonConnect();
 
-  const sleep = (time: number) => new Promise((resolve) => setTimeout(resolve, time));
-
   const [contractData, setContractData] = useState<null | {
     counter_value: number;
     recent_sender: Address;
     owner_address: Address;
   }>();
+
 
   const mainContract = useAsyncInitialize(async () => {
     if (!client) return;
