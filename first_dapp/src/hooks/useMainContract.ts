@@ -2,12 +2,15 @@ import { useEffect, useState } from "react";
 import { MainContract } from "../contracts/MainContract";
 import { useTonClient } from "./useTonClient";
 import { useAsyncInitialize } from "./useAsyncInitialize";
-import { Address, OpenedContract, toNano } from "ton-core";
+import { Address, OpenedContract } from "ton-core";
+import { toNano } from "ton-core";
 import { useTonConnect } from "./useTonConnect";
 
 export function useMainContract() {
   const client = useTonClient();
   const { sender } = useTonConnect();
+
+  const sleep = (time: number) => new Promise((resolve) => setTimeout(resolve, time));
 
   const [contractData, setContractData] = useState<null | {
     counter_value: number;
@@ -15,14 +18,11 @@ export function useMainContract() {
     owner_address: Address;
   }>();
 
-  const [balance, setBalance] = useState<null | number>(0);
-
   const mainContract = useAsyncInitialize(async () => {
     if (!client) return;
-    const parsedAddress = Address.parse("EQDAbnsqALKAoQO5uS1qOI8X7OhkeDnv3hZiqg2VAqhPa6xN");
-    console.log("🚀 ~ file: useMainContract.ts:22 ~ mainContract ~ parsedAddress:", parsedAddress.toString());
-
-    const contract = new MainContract(parsedAddress);
+    const contract = new MainContract(
+      Address.parse("EQCS7PUYXVFI-4uvP1_vZsMVqLDmzwuimhEPtsyQKIcdeNPu") 
+    );
     return client.open(contract) as OpenedContract<MainContract>;
   }, [client]);
 
