@@ -12,6 +12,7 @@
   "dependencies": {
     "@orbs-network/ton-access": "^2.3.3",
     "@tonconnect/ui-react": "^2.0.9",
+    "@twa-dev/sdk": "^8.0.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "ton": "^13.9.0",
@@ -30,6 +31,6 @@
     "globals": "^15.14.0",
     "typescript": "~5.6.2",
     "typescript-eslint": "^8.18.2",
-    "vite": "^6.0.5"
+    "vite": "^5.4.11"
   }
 }
